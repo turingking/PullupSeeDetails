@@ -23,10 +23,7 @@ public class SlidingDetailsLayout extends ViewGroup {
      */
     private Scroller mScroller;
 
-    /**
-     * 判定为拖动的最小移动像素数
-     */
-    private int mTouchSlop;
+
 
     /**
      * 手机按下时的屏幕坐标
@@ -68,7 +65,12 @@ public class SlidingDetailsLayout extends ViewGroup {
     }
 
     public interface PositionChangListener{
-        public  void position(int positon);
+        public void position(int positon);
+        public void onBottom();
+        public void backBottom();
+
+        public void onTop();
+        public void backTop();
     }
 
 
@@ -76,9 +78,6 @@ public class SlidingDetailsLayout extends ViewGroup {
         super(context, attrs);
         // 第一步，创建Scroller的实例
         mScroller = new Scroller(context);
-        ViewConfiguration configuration = ViewConfiguration.get(context);
-        // 获取TouchSlop值
-        mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
     }
 
     public void setPositionChangListener(PositionChangListener positionChangListener) {
@@ -134,12 +133,24 @@ public class SlidingDetailsLayout extends ViewGroup {
 
                 float mYMove = (mYLastMove - ev.getRawY());
                 //根据当前position 判断是在顶部view还是底部view
+
+
                 if(position == 0){//顶部view
+
+                    if(topListener == null){//如果并不是可以内容滚动的view 则直接滑动
+                        return true;
+                    }
+
                     if(topListener.isScrollBottom() && mYMove > 0){//topView 已经移动到了底部
                         //Log.e(TAG,"top view is bottom");
                         return true;
                     }
                 }else{//底部view
+
+                    if(bottomListener == null){
+                        return true;
+                    }
+
                     if(bottomListener.isScrollTop() && mYMove < 0){//bottomView 已经移动到了顶部
                         //Log.e(TAG,"bottom view is top");
                         return true;
@@ -150,6 +161,7 @@ public class SlidingDetailsLayout extends ViewGroup {
         return super.onInterceptTouchEvent(ev);
     }
 
+    private boolean top,bottom;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -160,6 +172,50 @@ public class SlidingDetailsLayout extends ViewGroup {
             case MotionEvent.ACTION_MOVE:
                 mYMove = event.getRawY();
                 int scrolledY= (int) (mYLastMove - mYMove);
+
+                //中间view 状态改变
+                if(position == 0){
+                    if(getScrollY() + getHeight() > getHeight() + promptView.getHeight()){
+                        if(positionChangListener!=null){
+                            if(!bottom){
+                                positionChangListener.onBottom();
+                                bottom = true;
+                            }
+
+                        }
+                    }else{
+                        if(positionChangListener!=null){
+                            if(bottom){
+                                positionChangListener.backBottom();
+                                bottom = false;
+                            }
+
+                        }
+                    }
+                }else{
+
+                    if(getScrollY() < getHeight()){
+                        if(positionChangListener!=null){
+                            if(!top){
+                                positionChangListener.onTop();
+                                top = true;
+                            }
+
+                        }
+
+                    }else{
+
+                        if(positionChangListener!=null){
+                            if(top){
+                                positionChangListener.backTop();
+                                top = false;
+                            }
+                        }
+
+                    }
+
+                }
+
                 if (getScrollY() + scrolledY < topView.getTop()) {
                     scrollTo(0, topView.getTop());
                     return true;
@@ -181,6 +237,8 @@ public class SlidingDetailsLayout extends ViewGroup {
                     targetIndex = getScrollY() < getHeight() ? 0 : 1;
 
                 }
+
+
 
 
 
