@@ -39,6 +39,19 @@ public class MyScrollView extends ScrollView implements SlidingDetailsLayout.Top
         fullScroll(View.FOCUS_DOWN);
     }
 
+
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed,l,t,r,b);
+
+
+        if(getChildAt(0).getHeight()<getHeight()){
+            top = true;
+            bottom = true;
+        }
+    }
+
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
