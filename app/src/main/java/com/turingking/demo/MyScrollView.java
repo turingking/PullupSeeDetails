@@ -2,7 +2,6 @@ package com.turingking.demo;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 
@@ -15,7 +14,7 @@ public class MyScrollView extends ScrollView implements SlidingDetailsLayout.Top
 
     public MyScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        top = true;
+        top = false;
         bottom = false;
     }
 
