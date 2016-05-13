@@ -51,7 +51,14 @@ public class MyScrollView extends ScrollView implements SlidingDetailsLayout.Top
         if(getChildAt(0).getHeight()<getHeight()){
             top = true;
             bottom = true;
+        }else{
+            top = getScrollY() == 0;
+
+            int diff = (getChildAt(0).getBottom()-(getHeight()+getScrollY()));
+            bottom = diff == 0;
         }
+
+
     }
 
     @Override
@@ -63,21 +70,11 @@ public class MyScrollView extends ScrollView implements SlidingDetailsLayout.Top
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+        top = getScrollY() == 0;
 
-        int scrollY = getScrollY();
-
-        top = scrollY == 0;
-
-        View view = getChildAt(getChildCount()-1);
-
-        // Calculate the scrolldiff
-        int diff = (view.getBottom()-(getHeight()+getScrollY()));
-
-        // if diff is zero, then the bottom has been reached
+        int diff = (getChildAt(0).getBottom()-(getHeight()+getScrollY()));
         bottom = diff == 0;
 
-
-        //Log.e(" tag ","top = "+top +" bottom = "+bottom);
 
     }
 }

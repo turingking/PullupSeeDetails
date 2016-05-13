@@ -1,12 +1,11 @@
 package com.turingking.demo;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
@@ -48,6 +47,9 @@ public class SlidingDetailsLayout extends ViewGroup {
 
     private PositionChangListener positionChangListener;
 
+
+
+    private int mTouchSlop;
     /*
     * 监听view是否到了顶部或者底部
     * */
@@ -73,6 +75,10 @@ public class SlidingDetailsLayout extends ViewGroup {
         super(context, attrs);
         // 第一步，创建Scroller的实例
         mScroller = new Scroller(context);
+
+
+        ViewConfiguration vc = ViewConfiguration.get(context);
+        mTouchSlop = vc.getScaledTouchSlop();
     }
 
     public void setPositionChangListener(PositionChangListener positionChangListener) {
@@ -247,8 +253,6 @@ public class SlidingDetailsLayout extends ViewGroup {
 
 
 
-
-
                 position = targetIndex;
 
                 int dy;
@@ -266,6 +270,11 @@ public class SlidingDetailsLayout extends ViewGroup {
                 if(positionChangListener!=null){
                     positionChangListener.position(position);
                 }
+
+                if(Math.abs(ev.getRawY()-mYDown)>mTouchSlop){
+                    return true;
+                }
+
                 break;
         }
 
@@ -287,32 +296,5 @@ public class SlidingDetailsLayout extends ViewGroup {
 
 
 
-    /**
-     * This method converts dp unit to equivalent pixels, depending on device density.
-     *
-     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
-     * @param context Context to get resources and device specific display metrics
-     * @return A float value to represent px equivalent to dp depending on device density
-     */
-    public static float convertDpToPixel(float dp, Context context){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return px;
-    }
-
-    /**
-     * This method converts device specific pixels to density independent pixels.
-     *
-     * @param px A value in px (pixels) unit. Which we need to convert into db
-     * @param context Context to get resources and device specific display metrics
-     * @return A float value to represent dp equivalent to px value
-     */
-    public static float convertPixelsToDp(float px, Context context){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return dp;
-    }
 
 }
