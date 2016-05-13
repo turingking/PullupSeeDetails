@@ -145,11 +145,9 @@ public class SlidingDetailsLayout extends ViewGroup {
             case MotionEvent.ACTION_DOWN:
                 mYDown = ev.getRawY();
                 mYLastMove = mYDown;
-                dispatchTouchEventSupper(ev);
-                return true;
+                break;
 
             case MotionEvent.ACTION_MOVE:
-
 
                 mYMove = ev.getRawY();
 
@@ -271,9 +269,16 @@ public class SlidingDetailsLayout extends ViewGroup {
                     positionChangListener.position(position);
                 }
 
-                if(Math.abs(ev.getRawY()-mYDown)>mTouchSlop){
+
+
+                if(getScrollY()!=0&&getScrollY()!=getHeight() + promptView.getHeight()){//如果处在滑动状态 就不要传递事件给子view
                     return true;
                 }
+
+
+                /*if(Math.abs(ev.getRawY()-mYDown)>mTouchSlop){
+                    return false;
+                }*/
 
                 break;
         }
