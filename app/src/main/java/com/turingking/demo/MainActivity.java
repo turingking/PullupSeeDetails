@@ -10,10 +10,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private SlidingDetailsLayout slidingDetailsLayout;
-    private TextView tishi,lilv;
+    private TextView tishi;
 
-    private Button puy;
-    private int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,15 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         slidingDetailsLayout = (SlidingDetailsLayout) findViewById(R.id.slidingDetailsLayout);
         tishi = (TextView) findViewById(R.id.tishi);
-        lilv = (TextView) findViewById(R.id.lilv);
 
-        puy = (Button) findViewById(R.id.puy);
-        puy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lilv.setText(""+i++);
-            }
-        });
 
         tishi.setText("上拉查看详情");
         slidingDetailsLayout.setPositionChangListener(new SlidingDetailsLayout.PositionChangListener() {

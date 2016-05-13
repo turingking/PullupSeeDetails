@@ -102,27 +102,30 @@ public class SlidingDetailsLayout extends ViewGroup {
         super.onFinishInflate();
     }
 
+
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if(topView!=null){
-            measureChild(topView, widthMeasureSpec, heightMeasureSpec);
-            measureChild(promptView, widthMeasureSpec, heightMeasureSpec);
-            measureChild(bottomView, widthMeasureSpec, heightMeasureSpec);
+        int childCount = this.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = this.getChildAt(i);
+            this.measureChild(child, widthMeasureSpec, heightMeasureSpec);
         }
-
 
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (changed) {
-            //布局 topView和bottomView宽高都是充满父view
-            topView.layout(0,0,getMeasuredWidth(),getMeasuredHeight());
-            promptView.layout(0,getMeasuredHeight(),promptView.getMeasuredWidth(),getMeasuredHeight()+promptView.getMeasuredHeight());
-            bottomView.layout(0,getMeasuredHeight()+promptView.getMeasuredHeight(),getMeasuredWidth(),2*getMeasuredHeight()+promptView.getMeasuredHeight());
+
 
         }
+        //布局 topView和bottomView宽高都是充满父view
+        topView.layout(0,0,getMeasuredWidth(),getMeasuredHeight());
+        promptView.layout(0,getMeasuredHeight(),promptView.getMeasuredWidth(),getMeasuredHeight()+promptView.getMeasuredHeight());
+        bottomView.layout(0,getMeasuredHeight()+promptView.getMeasuredHeight(),getMeasuredWidth(),2*getMeasuredHeight()+promptView.getMeasuredHeight());
+
 
     }
 
