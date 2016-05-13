@@ -123,6 +123,7 @@ public class SlidingDetailsLayout extends ViewGroup {
             bottomView.layout(0,getMeasuredHeight()+promptView.getMeasuredHeight(),getMeasuredWidth(),2*getMeasuredHeight()+promptView.getMeasuredHeight());
 
         }
+
     }
 
 
