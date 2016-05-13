@@ -11,12 +11,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             >
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1200dp"
+                android:layout_height="wrap_content"
                 android:text="This is frist child view"
                 android:background="#66ff0000"
+                />
+            <Button
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="1200dp"
+                android:text="test"
                 />
 
         </LinearLayout>

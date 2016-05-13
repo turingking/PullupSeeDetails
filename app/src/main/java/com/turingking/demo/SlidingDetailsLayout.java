@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,6 @@ public class SlidingDetailsLayout extends ViewGroup {
      * 用于完成滚动操作的实例
      */
     private Scroller mScroller;
-
-
 
     /**
      * 手机按下时的屏幕坐标
@@ -117,10 +116,6 @@ public class SlidingDetailsLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        if (changed) {
-
-
-        }
         //布局 topView和bottomView宽高都是充满父view
         topView.layout(0,0,getMeasuredWidth(),getMeasuredHeight());
         promptView.layout(0,getMeasuredHeight(),promptView.getMeasuredWidth(),getMeasuredHeight()+promptView.getMeasuredHeight());
@@ -137,6 +132,8 @@ public class SlidingDetailsLayout extends ViewGroup {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+       // Log.e("SlidingDetailsLayout","dispatchTouchEvent ==> "+ev);
+
 
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -233,8 +230,6 @@ public class SlidingDetailsLayout extends ViewGroup {
                     }
                 }
 
-                dispatchTouchEventSupper(ev);
-
 
                 break;
 
@@ -271,8 +266,6 @@ public class SlidingDetailsLayout extends ViewGroup {
                 if(positionChangListener!=null){
                     positionChangListener.position(position);
                 }
-
-                dispatchTouchEventSupper(ev);
                 break;
         }
 

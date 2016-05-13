@@ -2,6 +2,8 @@ package com.turingking.demo;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
@@ -50,6 +52,12 @@ public class MyScrollView extends ScrollView implements SlidingDetailsLayout.Top
             top = true;
             bottom = true;
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        //Log.e("MyScrollView","dispatchTouchEvent ==> "+ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override

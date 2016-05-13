@@ -11,6 +11,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private SlidingDetailsLayout slidingDetailsLayout;
     private TextView tishi;
+    private Button test;
+    private int i;
 
 
     @Override
@@ -19,6 +21,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         slidingDetailsLayout = (SlidingDetailsLayout) findViewById(R.id.slidingDetailsLayout);
         tishi = (TextView) findViewById(R.id.tishi);
+        test = (Button) findViewById(R.id.test);
+
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                test.setText(i+++"");
+            }
+        });
 
 
         tishi.setText("上拉查看详情");
